@@ -2,7 +2,7 @@ use serde::{Deserialize, Serialize};
 
 type EloRange = String;
 
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, PartialEq, Eq, PartialOrd, Ord, Clone, Debug)]
 pub enum Category {
     CastingRanked(EloRange),
     CastingTournaments,
@@ -11,7 +11,7 @@ pub enum Category {
     PovContent(EloRange),
     LearningResources,
 }
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, PartialEq, Eq, PartialOrd, Ord, Clone, Debug)]
 pub enum LanguageShortCode {
     En,
     De,
@@ -25,7 +25,7 @@ pub enum LanguageShortCode {
 
 pub type GameId = String;
 
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, PartialEq, Eq, PartialOrd, Ord, Clone, Debug)]
 pub enum GamePlatform {
     Aoe1(Vec<MultiplayerPlatform>),
     Aoe2(Vec<MultiplayerPlatform>),
@@ -35,7 +35,7 @@ pub enum GamePlatform {
     AoeO(GameId),
 }
 
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, PartialEq, Eq, PartialOrd, Ord, Clone, Debug)]
 pub enum MultiplayerPlatform {
     De(Vec<String>),
     Voobly(Vec<String>),
@@ -45,7 +45,8 @@ pub enum MultiplayerPlatform {
 
 type ContentUrl = String;
 
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, PartialEq, Eq, PartialOrd, Ord, Clone, Debug)]
+
 pub enum ContentPlatform {
     Twitch(ContentUrl),
     Youtube(ContentUrl),
@@ -54,15 +55,25 @@ pub enum ContentPlatform {
     Discord(ContentUrl),
 }
 
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, PartialEq, Eq, PartialOrd, Ord, Clone, Debug)]
 pub enum InfoPlatform {
     Liquipedia(ContentUrl),
     AoeElo(i64),
 }
 
-#[derive(typed_builder::TypedBuilder, Serialize, Deserialize, Clone, Debug)]
+#[derive(
+    typed_builder::TypedBuilder,
+    Serialize,
+    Deserialize,
+    PartialEq,
+    Eq,
+    PartialOrd,
+    Ord,
+    Clone,
+    Debug,
+)]
 pub struct ContentCreator {
-    name: String,
+    pub name: String,
     #[serde(skip_serializing_if = "Option::is_none")]
     country: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]

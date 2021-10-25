@@ -94,6 +94,7 @@ fn main() {
 
         content_creators.push(content_creator);
     }
+    content_creators.sort();
 
     let file = std::fs::File::create("data/streamers.yaml").expect("Couldn't create file.");
     let mut writer = BufWriter::new(file);
