@@ -9,7 +9,15 @@ use crate::types::streamers::{ContentPlatform, GamePlatform, InfoPlatform};
 
 fn main() {
     let file = std::fs::File::open("data/players.yaml").unwrap();
-    let players: Vec<Player> = serde_yaml::from_reader(&file).unwrap();
+    let mut players: Vec<Player> = serde_yaml::from_reader(&file).unwrap();
+
+    players.retain(|orig| {
+        orig.twitch.is_some()
+            | orig.douyu.is_some()
+            | orig.youtube.is_some()
+            | orig.facebook_gaming.is_some()
+            | orig.discord.is_some()
+    });
 
     let mut content_creators: Vec<ContentCreator> = vec![];
 
