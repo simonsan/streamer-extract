@@ -1,5 +1,5 @@
 [package]
-name = "streamer-extract"
+name = "aoc_util"
 version = "0.1.0"
 edition = "2021"
 
@@ -7,3 +7,15 @@ edition = "2021"
 serde = { version = "1.0.130", features = ["derive"] }
 serde_yaml = "0.8.21"
 typed-builder = "0.9.1"
+
+[[bin]]
+name = "conversion"
+path = "src/bin/conversion.rs"
+
+[[bin]]
+name = "unique"
+path = "src/bin/unique.rs"
+
+[[bin]]
+name = "nostream"
+path = "src/bin/remove_stream_info.rs"

@@ -3,6 +3,15 @@
 version = 3
 
 [[package]]
+name = "aoc_util"
+version = "0.1.0"
+dependencies = [
+ "serde",
+ "serde_yaml",
+ "typed-builder",
+]
+
+[[package]]
 name = "autocfg"
 version = "1.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -84,15 +93,6 @@ dependencies = [
  "indexmap",
  "serde",
  "yaml-rust",
-]
-
-[[package]]
-name = "streamer-extract"
-version = "0.1.0"
-dependencies = [
- "serde",
- "serde_yaml",
- "typed-builder",
 ]
 
 [[package]]

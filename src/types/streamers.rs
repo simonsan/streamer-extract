@@ -73,6 +73,8 @@ pub enum InfoPlatform {
     Debug,
 )]
 pub struct ContentCreator {
+    uid: u64,
+    player_id: u64,
     pub name: String,
     #[serde(skip_serializing_if = "Option::is_none")]
     country: Option<String>,
@@ -80,8 +82,10 @@ pub struct ContentCreator {
     content_languages: Option<Vec<String>>,
     #[serde(skip_serializing_if = "Option::is_none")]
     content_platforms: Option<Vec<ContentPlatform>>,
-    #[serde(skip_serializing_if = "Option::is_none")]
+    // #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(skip_serializing)]
     info_platforms: Option<Vec<InfoPlatform>>,
-    #[serde(skip_serializing_if = "Option::is_none")]
+    // #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(skip_serializing)]
     gaming_profiles: Option<Vec<GamePlatform>>,
 }

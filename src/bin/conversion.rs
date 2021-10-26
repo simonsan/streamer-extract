@@ -1,14 +1,14 @@
-pub mod types;
+// Run second
 
 use std::io::BufWriter;
 
-use types::players::Player;
-use types::streamers::{ContentCreator, MultiplayerPlatform};
+use aoc_util::types::players::Player;
+use aoc_util::types::streamers::{ContentCreator, MultiplayerPlatform};
 
-use crate::types::streamers::{ContentPlatform, GamePlatform, InfoPlatform};
+use aoc_util::types::streamers::{ContentPlatform, GamePlatform, InfoPlatform};
 
 fn main() {
-    let file = std::fs::File::open("data/players.yaml").unwrap();
+    let file = std::fs::File::open("data/edited/players.yaml").unwrap();
     let mut players: Vec<Player> = serde_yaml::from_reader(&file).unwrap();
 
     players.retain(|orig| {
@@ -20,10 +20,13 @@ fn main() {
     });
 
     let mut content_creators: Vec<ContentCreator> = vec![];
+    let mut uid = 1;
 
     for player in &players {
         let content_creator = ContentCreator::builder()
             .name(player.name.clone())
+            .uid(uid)
+            .player_id(player.uid)
             .country(if !player.country.is_empty() {
                 Some(player.country.to_string())
             } else {
@@ -85,12 +88,18 @@ fn main() {
                 let mut platform_ids: Vec<MultiplayerPlatform> = vec![];
 
                 // AoE2
-                platform_ids.push(MultiplayerPlatform::De(player.platforms.de.clone()));
-                platform_ids.push(MultiplayerPlatform::Voobly(player.platforms.voobly.clone()));
+                if !player.platforms.de.is_empty() {
+                    platform_ids.push(MultiplayerPlatform::De(player.platforms.de.clone()));
+                }
+                if !player.platforms.voobly.is_empty() {
+                    platform_ids.push(MultiplayerPlatform::Voobly(player.platforms.voobly.clone()));
+                }
                 game_ids.push(GamePlatform::Aoe2(platform_ids));
 
                 // AoE4
-                game_ids.push(GamePlatform::Aoe4(player.platforms.aoe4.clone()));
+                if !player.platforms.aoe4.is_empty() {
+                    game_ids.push(GamePlatform::Aoe4(player.platforms.aoe4.clone()));
+                }
 
                 if !game_ids.is_empty() {
                     Some(game_ids)
@@ -101,10 +110,13 @@ fn main() {
             .build();
 
         content_creators.push(content_creator);
+
+        // Increment user id
+        uid += 1;
     }
     content_creators.sort();
 
-    let file = std::fs::File::create("data/streamers.yaml").expect("Couldn't create file.");
+    let file = std::fs::File::create("data/edited/streamers.yaml").expect("Couldn't create file.");
     let mut writer = BufWriter::new(file);
 
     // Write data to file
