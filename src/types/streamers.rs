@@ -76,7 +76,7 @@ pub struct ContentCreator {
     uid: u64,
     player_id: u64,
     pub name: String,
-    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(skip_serializing)]
     country: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     content_languages: Option<Vec<String>>,
