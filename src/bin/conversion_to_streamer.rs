@@ -115,10 +115,10 @@ fn main() {
     }
     content_creators.sort();
 
-    let file = std::fs::File::create("data/edited/streamers.yaml").expect("Couldn't create file.");
+    let file = std::fs::File::create("data/edited/streamers.json").expect("Couldn't create file.");
     let mut writer = BufWriter::new(file);
 
     // Write data to file
-    serde_yaml::to_writer(&mut writer, &content_creators)
+    serde_json::to_writer_pretty(&mut writer, &content_creators)
         .expect("Wrting data to file experienced an error.");
 }
