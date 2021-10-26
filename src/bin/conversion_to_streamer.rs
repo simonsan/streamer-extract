@@ -41,23 +41,23 @@ fn main() {
                 let mut platforms: Vec<ContentPlatform> = vec![];
 
                 if let Some(id) = &player.twitch {
-                    platforms.push(ContentPlatform::Twitch(id.to_string()))
+                    platforms.push(ContentPlatform::Twitch(id.to_vec()))
                 }
 
                 if let Some(id) = &player.youtube {
-                    platforms.push(ContentPlatform::Youtube(id.to_string()))
+                    platforms.push(ContentPlatform::Youtube(id.to_vec()))
                 }
 
                 if let Some(id) = &player.facebook_gaming {
-                    platforms.push(ContentPlatform::FacebookGaming(id.to_string()))
+                    platforms.push(ContentPlatform::FacebookGaming(id.to_vec()))
                 }
 
                 if let Some(id) = &player.douyu {
-                    platforms.push(ContentPlatform::Douyu(id.to_string()))
+                    platforms.push(ContentPlatform::Douyu(id.to_vec()))
                 }
 
                 if let Some(id) = &player.discord {
-                    platforms.push(ContentPlatform::Discord(id.to_string()))
+                    platforms.push(ContentPlatform::Discord(id.to_vec()))
                 }
 
                 if !platforms.is_empty() {

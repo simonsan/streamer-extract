@@ -9,8 +9,13 @@ serde_yaml = "0.8.21"
 typed-builder = "0.9.1"
 
 [[bin]]
-name = "conversion"
-path = "src/bin/conversion.rs"
+name = "conversion2vec"
+path = "src/bin/conversion_to_vec.rs"
+
+
+# [[bin]]
+# name = "conversion-streamer"
+# path = "src/bin/conversion_to_streamer.rs"
 
 [[bin]]
 name = "unique"

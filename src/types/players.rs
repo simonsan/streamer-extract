@@ -10,6 +10,9 @@ pub struct Player {
     pub uid: u64,
     /// Most known Name
     pub name: String,
+    /// Teams
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub team: Option<String>,
     /// Other known Names
     #[serde(default)]
     #[serde(skip_serializing_if = "Vec::is_empty")]
@@ -47,7 +50,63 @@ pub struct Player {
     pub facebook_gaming: Option<String>,
 }
 
-/// A player from `aoc-reference data`
+#[derive(
+    typed_builder::TypedBuilder,
+    Clone,
+    Debug,
+    PartialEq,
+    PartialOrd,
+    Eq,
+    Ord,
+    Hash,
+    Serialize,
+    Deserialize,
+)]
+
+pub struct PlayerToVec {
+    /// Most known Name
+    pub name: String,
+    /// Other known Names
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    pub aka: Vec<String>,
+    /// Origin of a Player
+    pub country: String,
+    /// ELO on aoeelo.com
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub aoeelo: Option<i64>,
+    /// ID for that corresponding player on that platform
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub esportsearnings: Option<i64>,
+    /// Name on the platform
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub liquipedia: Option<String>,
+    /// Link to a streaming platform
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub douyu: Option<Vec<String>>,
+    /// Platform datastructure, contains `profile_ids`
+    pub platforms: Platforms,
+    /// Link to a streaming platform
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub youtube: Option<Vec<String>>,
+    /// Link to a streaming platform
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub facebook_gaming: Option<Vec<String>>,
+    /// Discord invite to a Server of a Player
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub discord: Option<Vec<String>>,
+    /// Link to a streaming platform
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub twitch: Option<Vec<String>>,
+    /// Teams
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub team: Option<String>,
+    /// Link to a streaming platform (outdated)
+    #[serde(skip_serializing)]
+    pub mixer: Option<Vec<String>>,
+}
+
+/// A player from `aoc-reference data` without streaming
 #[derive(Clone, Debug, PartialEq, PartialOrd, Eq, Ord, Hash, Serialize, Deserialize)]
 pub struct PlayerNoStream {
     /// Unique ID
@@ -55,6 +114,9 @@ pub struct PlayerNoStream {
     pub uid: u64,
     /// Most known Name
     pub name: String,
+    /// Teams
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub team: Option<String>,
     /// Other known Names
     #[serde(default)]
     #[serde(skip_serializing_if = "Vec::is_empty")]
@@ -65,11 +127,11 @@ pub struct PlayerNoStream {
     /// Origin of a Player
     pub country: String,
     /// Discord invite to a Server of a Player
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub discord: Option<String>,
+    #[serde(skip_serializing)]
+    pub discord: Option<Vec<String>>,
     /// Link to a streaming platform
     #[serde(skip_serializing)]
-    pub douyu: Option<String>,
+    pub douyu: Option<Vec<String>>,
     /// ID for that corresponding player on that platform
     #[serde(skip_serializing_if = "Option::is_none")]
     pub esportsearnings: Option<i64>,
@@ -78,18 +140,18 @@ pub struct PlayerNoStream {
     pub liquipedia: Option<String>,
     /// Link to a streaming platform (outdated)
     #[serde(skip_serializing)]
-    pub mixer: Option<String>,
+    pub mixer: Option<Vec<String>>,
     /// Platform datastructure, contains `profile_ids`
     pub platforms: Platforms,
     /// Link to a streaming platform
     #[serde(skip_serializing)]
-    pub twitch: Option<String>,
+    pub twitch: Option<Vec<String>>,
     /// Link to a streaming platform
     #[serde(skip_serializing)]
-    pub youtube: Option<String>,
+    pub youtube: Option<Vec<String>>,
     /// Link to a streaming platform
     #[serde(skip_serializing)]
-    pub facebook_gaming: Option<String>,
+    pub facebook_gaming: Option<Vec<String>>,
 }
 
 #[derive(Clone, Debug, PartialEq, PartialOrd, Eq, Ord, Hash, Serialize, Deserialize)]

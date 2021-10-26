@@ -48,17 +48,18 @@ type ContentUrl = String;
 #[derive(Serialize, Deserialize, PartialEq, Eq, PartialOrd, Ord, Clone, Debug)]
 
 pub enum ContentPlatform {
-    Twitch(ContentUrl),
-    Youtube(ContentUrl),
-    FacebookGaming(ContentUrl),
-    Douyu(ContentUrl),
-    Discord(ContentUrl),
+    Twitch(Vec<ContentUrl>),
+    Youtube(Vec<ContentUrl>),
+    FacebookGaming(Vec<ContentUrl>),
+    Douyu(Vec<ContentUrl>),
+    Discord(Vec<ContentUrl>),
 }
 
 #[derive(Serialize, Deserialize, PartialEq, Eq, PartialOrd, Ord, Clone, Debug)]
 pub enum InfoPlatform {
     Liquipedia(ContentUrl),
     AoeElo(i64),
+    EsportsErnings(u64),
 }
 
 #[derive(
