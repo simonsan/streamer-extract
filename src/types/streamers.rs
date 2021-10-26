@@ -11,6 +11,7 @@ pub enum Category {
     PovContent(EloRange),
     LearningResources,
 }
+
 #[derive(Serialize, Deserialize, PartialEq, Eq, PartialOrd, Ord, Clone, Debug)]
 pub enum LanguageShortCode {
     En,
@@ -75,18 +76,16 @@ pub enum InfoPlatform {
 )]
 pub struct ContentCreator {
     uid: u64,
-    player_id: u64,
+    /// Player ID for looking up in players.yaml file
+    // player_id: u64,
     pub name: String,
-    #[serde(skip_serializing)]
     country: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     content_languages: Option<Vec<String>>,
     #[serde(skip_serializing_if = "Option::is_none")]
     content_platforms: Option<Vec<ContentPlatform>>,
     // #[serde(skip_serializing_if = "Option::is_none")]
-    #[serde(skip_serializing)]
     info_platforms: Option<Vec<InfoPlatform>>,
     // #[serde(skip_serializing_if = "Option::is_none")]
-    #[serde(skip_serializing)]
     gaming_profiles: Option<Vec<GamePlatform>>,
 }

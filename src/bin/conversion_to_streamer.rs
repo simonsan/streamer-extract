@@ -2,14 +2,14 @@
 
 use std::io::BufWriter;
 
-use aoc_util::types::players::Player;
+use aoc_util::types::players::PlayerToVec;
 use aoc_util::types::streamers::{ContentCreator, MultiplayerPlatform};
 
 use aoc_util::types::streamers::{ContentPlatform, GamePlatform, InfoPlatform};
 
 fn main() {
     let file = std::fs::File::open("data/edited/players.yaml").unwrap();
-    let mut players: Vec<Player> = serde_yaml::from_reader(&file).unwrap();
+    let mut players: Vec<PlayerToVec> = serde_yaml::from_reader(&file).unwrap();
 
     players.retain(|orig| {
         orig.twitch.is_some()
@@ -26,7 +26,6 @@ fn main() {
         let content_creator = ContentCreator::builder()
             .name(player.name.clone())
             .uid(uid)
-            .player_id(player.uid)
             .country(if !player.country.is_empty() {
                 Some(player.country.to_string())
             } else {

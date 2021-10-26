@@ -12,10 +12,9 @@ typed-builder = "0.9.1"
 name = "conversion2vec"
 path = "src/bin/conversion_to_vec.rs"
 
-
-# [[bin]]
-# name = "conversion-streamer"
-# path = "src/bin/conversion_to_streamer.rs"
+[[bin]]
+name = "conversion2streamer"
+path = "src/bin/conversion_to_streamer.rs"
 
 [[bin]]
 name = "unique"
