@@ -371,11 +371,19 @@ fn main() {
                 if !player.platforms.voobly.is_empty() {
                     platform_ids.push(MultiplayerPlatform::Voobly(player.platforms.voobly.clone()));
                 }
-                game_ids.push(GamePlatform::Aoe2(platform_ids));
+                game_ids.push(GamePlatform {
+                    game_platform_id: GameShortCode::Aoe2,
+                    game_platform_user_ids: platform_ids,
+                });
 
                 // AoE4
                 if !player.platforms.aoe4.is_empty() {
-                    game_ids.push(GamePlatform::Aoe4(player.platforms.aoe4.clone()));
+                    game_ids.push(GamePlatform {
+                        game_platform_id: GameShortCode::Aoe2,
+                        game_platform_user_ids: vec![MultiplayerPlatform::Native(
+                            player.platforms.aoe4.clone(),
+                        )],
+                    });
                 }
 
                 if !game_ids.is_empty() {

@@ -1,40 +1,21 @@
-use serde::{
-    Deserialize,
-    Serialize,
-};
+use serde::{Deserialize, Serialize};
 
-use crate::types::GameId;
+use crate::types::games::GameShortCode;
 
-#[derive(Serialize,
-           Deserialize,
-           PartialEq,
-           Eq,
-           PartialOrd,
-           Ord,
-           Clone,
-           Debug)]
-#[serde(rename_all = "camelCase")]
-pub enum GamePlatform {
-    Aoe1(Vec<MultiplayerPlatform>),
-    Aoe2(Vec<MultiplayerPlatform>),
-    Aoe3(Vec<MultiplayerPlatform>),
-    Aoe4(Vec<GameId>),
-    Aom(Vec<MultiplayerPlatform>),
-    AoeO(GameId),
-}
-
-#[derive(Serialize,
-           Deserialize,
-           PartialEq,
-           Eq,
-           PartialOrd,
-           Ord,
-           Clone,
-           Debug)]
+#[derive(Serialize, Deserialize, PartialEq, Eq, PartialOrd, Ord, Clone, Debug)]
 #[serde(rename_all = "camelCase")]
 pub enum MultiplayerPlatform {
+    Native(Vec<String>),
+    Hd(Vec<String>),
     De(Vec<String>),
     Voobly(Vec<String>),
     GameRanger(Vec<String>),
     ESOC(Vec<String>),
+}
+
+#[derive(Serialize, Deserialize, PartialEq, Eq, PartialOrd, Ord, Clone, Debug)]
+#[serde(rename_all = "camelCase")]
+pub struct GamePlatform {
+    pub game_platform_id: GameShortCode,
+    pub game_platform_user_ids: Vec<MultiplayerPlatform>,
 }
