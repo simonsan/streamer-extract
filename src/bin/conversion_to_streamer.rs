@@ -6,7 +6,7 @@ use aoc_util::types::{
     content_creator::{ContentCreatorInfo, ContentCreatorPlatformInfo},
     elo::PlayerSkill,
     game_platforms::{GamePlatform, MultiplayerPlatform},
-    games::GameShortCode,
+    games::{ContentGames, GameShortCode},
     info_platforms::InfoPlatform,
     stream_platforms::{ContentPlatform, ContentPlatformInfo},
     Api,
@@ -29,32 +29,65 @@ fn main() {
         ContentPlatformInfo {
             id: 1,
             platform_name: "Twitch".to_string(),
-            logo_path: Some("media/logos/twitch.png".to_string()),
+            logo_path: Some("media/logos/content_platforms/twitch.png".to_string()),
             base_url: "https://www.twitch.tv".to_string(),
         },
         ContentPlatformInfo {
             id: 2,
             platform_name: "Youtube".to_string(),
-            logo_path: Some("media/logos/youtube.png".to_string()),
+            logo_path: Some("media/logos/content_platforms/youtube.png".to_string()),
             base_url: "https://www.youtube.com".to_string(),
         },
         ContentPlatformInfo {
             id: 3,
             platform_name: "FacebookGaming".to_string(),
-            logo_path: Some("media/logos/facebook-gaming.png".to_string()),
+            logo_path: Some("media/logos/content_platforms/facebook-gaming.png".to_string()),
             base_url: "https://www.facebook.com/gaming".to_string(),
         },
         ContentPlatformInfo {
             id: 4,
             platform_name: "Douyu".to_string(),
-            logo_path: Some("media/logos/douyu.png".to_string()),
+            logo_path: Some("media/logos/content_platforms/douyu.png".to_string()),
             base_url: "https://www.douyu.com".to_string(),
         },
         ContentPlatformInfo {
             id: 5,
             platform_name: "Discord".to_string(),
-            logo_path: Some("media/logos/discord.png".to_string()),
+            logo_path: Some("media/logos/content_platforms/discord.png".to_string()),
             base_url: "https://discord.com/invite".to_string(),
+        },
+    ];
+
+    let content_games: Vec<ContentGames> = vec![
+        ContentGames {
+            id: 1,
+            game_name: "Age of Empires I".to_string(),
+            logo_path: Some("media/logos/games/aoe1.png".to_string()),
+        },
+        ContentGames {
+            id: 2,
+            game_name: "Age of Empires II".to_string(),
+            logo_path: Some("media/logos/games/aoe2.png".to_string()),
+        },
+        ContentGames {
+            id: 3,
+            game_name: "Age of Empires III".to_string(),
+            logo_path: Some("media/logos/games/aoe3.png".to_string()),
+        },
+        ContentGames {
+            id: 4,
+            game_name: "Age of Mythology".to_string(),
+            logo_path: Some("media/logos/games/aom.png".to_string()),
+        },
+        ContentGames {
+            id: 5,
+            game_name: "Age of Empires: Online".to_string(),
+            logo_path: Some("media/logos/games/aoeo.png".to_string()),
+        },
+        ContentGames {
+            id: 6,
+            game_name: "Age of Empires IV".to_string(),
+            logo_path: Some("media/logos/games/aoe4.png".to_string()),
         },
     ];
 
@@ -363,6 +396,7 @@ fn main() {
 
     let api = Api::builder()
         .content_platform_infos(content_platforms)
+        .content_games(content_games)
         .content_categories(content_categories)
         .content_creators(content_creators)
         .build();
