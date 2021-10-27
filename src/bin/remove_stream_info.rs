@@ -2,7 +2,7 @@
 
 use std::io::BufWriter;
 
-use aoc_util::types::players::PlayerNoStream;
+use aoc_util::types::aoc_ref_players::PlayerNoStream;
 
 fn main() {
     let file = std::fs::File::open("data/edited/players.yaml").unwrap();

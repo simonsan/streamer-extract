@@ -1,6 +1,6 @@
 use std::io::BufWriter;
 
-use aoc_util::types::players::Player;
+use aoc_util::types::aoc_ref_players::Player;
 
 // Run first
 

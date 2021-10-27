@@ -2,7 +2,7 @@
 
 use std::io::BufWriter;
 
-use aoc_util::types::players::{Player, PlayerToVec};
+use aoc_util::types::aoc_ref_players::{Player, PlayerToVec};
 
 fn main() {
     let file = std::fs::File::open("data/players.yaml").unwrap();

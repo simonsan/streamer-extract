@@ -24,16 +24,16 @@ pub enum LanguageShortCode {
     Other(String),
 }
 
-pub type GameId = String;
+pub type UserId = String;
 
 #[derive(Serialize, Deserialize, PartialEq, Eq, PartialOrd, Ord, Clone, Debug)]
 pub enum GamePlatform {
     Aoe1(Vec<MultiplayerPlatform>),
     Aoe2(Vec<MultiplayerPlatform>),
     Aoe3(Vec<MultiplayerPlatform>),
-    Aoe4(Vec<GameId>),
+    Aoe4(Vec<UserId>),
     Aom(Vec<MultiplayerPlatform>),
-    AoeO(GameId),
+    AoeO(UserId),
 }
 
 #[derive(Serialize, Deserialize, PartialEq, Eq, PartialOrd, Ord, Clone, Debug)]
@@ -44,16 +44,31 @@ pub enum MultiplayerPlatform {
     ESOC(Vec<String>),
 }
 
+#[derive(Serialize, Deserialize, Clone, Debug)]
+pub struct ContentCreatorPlatformInfo {
+    content_platform: ContentPlatform,
+    creator_url: ContentUrl,
+    content_languages: Vec<LanguageShortCode>,
+    content_categories: Vec<Category>,
+}
+
 type ContentUrl = String;
+type ImagePath = String;
+type PlatformBaseUrl = String;
 
 #[derive(Serialize, Deserialize, PartialEq, Eq, PartialOrd, Ord, Clone, Debug)]
-
 pub enum ContentPlatform {
-    Twitch(Vec<ContentUrl>),
-    Youtube(Vec<ContentUrl>),
-    FacebookGaming(Vec<ContentUrl>),
-    Douyu(Vec<ContentUrl>),
-    Discord(Vec<ContentUrl>),
+    Twitch(ContentPlatformInfo),
+    Youtube(ContentPlatformInfo),
+    FacebookGaming(ContentPlatformInfo),
+    Douyu(ContentPlatformInfo),
+    Discord(ContentPlatformInfo),
+}
+
+#[derive(Serialize, Deserialize, PartialEq, Eq, PartialOrd, Ord, Clone, Debug)]
+pub struct ContentPlatformInfo {
+    pub logo: ImagePath,
+    pub base_url: PlatformBaseUrl,
 }
 
 #[derive(Serialize, Deserialize, PartialEq, Eq, PartialOrd, Ord, Clone, Debug)]
@@ -74,18 +89,24 @@ pub enum InfoPlatform {
     Clone,
     Debug,
 )]
-pub struct ContentCreator {
-    uid: u64,
-    /// Player ID for looking up in players.yaml file
-    // player_id: u64,
+pub struct ContentCreatorInfo {
+    pub id: usize,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub aoc_ref_id: Option<u64>,
     pub name: String,
-    country: Option<String>,
+    pub country: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    content_languages: Option<Vec<String>>,
+    pub bio: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    content_platforms: Option<Vec<ContentPlatform>>,
-    // #[serde(skip_serializing_if = "Option::is_none")]
-    info_platforms: Option<Vec<InfoPlatform>>,
-    // #[serde(skip_serializing_if = "Option::is_none")]
-    gaming_profiles: Option<Vec<GamePlatform>>,
+    pub image: Option<ImagePath>,
+    #[serde(skip_serializing)]
+    pub following: Option<bool>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub content_platforms: Option<Vec<ContentCreatorPlatformInfo>>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub info_platforms: Option<Vec<InfoPlatform>>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub gaming_profiles: Option<Vec<GamePlatform>>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub platform_elos: Option<Vec<PlatformElo>>,
 }

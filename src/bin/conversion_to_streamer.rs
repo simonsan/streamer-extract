@@ -1,11 +1,16 @@
 // Run second
 
+use aoc_util::types::{
+    aoc_ref_players::PlayerToVec,
+    categories::{Category, ContentCategory},
+    content_creator::{ContentCreatorInfo, ContentCreatorPlatformInfo},
+    elo::PlayerSkill,
+    game_platforms::{GamePlatform, MultiplayerPlatform},
+    info_platforms::InfoPlatform,
+    stream_platforms::{ContentPlatform, ContentPlatformInfo},
+    Api,
+};
 use std::io::BufWriter;
-
-use aoc_util::types::players::PlayerToVec;
-use aoc_util::types::streamers::{ContentCreator, MultiplayerPlatform};
-
-use aoc_util::types::streamers::{ContentPlatform, GamePlatform, InfoPlatform};
 
 fn main() {
     let file = std::fs::File::open("data/edited/players.yaml").unwrap();
@@ -19,44 +24,238 @@ fn main() {
             | orig.discord.is_some()
     });
 
-    let mut content_creators: Vec<ContentCreator> = vec![];
-    let mut uid = 1;
+    let content_platforms: Vec<ContentPlatformInfo> = vec![
+        ContentPlatformInfo {
+            id: 1,
+            platform_name: "Twitch".to_string(),
+            logo_path: Some("media/logos/twitch.png".to_string()),
+            base_url: "https://www.twitch.tv".to_string(),
+        },
+        ContentPlatformInfo {
+            id: 2,
+            platform_name: "Youtube".to_string(),
+            logo_path: Some("media/logos/youtube.png".to_string()),
+            base_url: "https://www.youtube.com".to_string(),
+        },
+        ContentPlatformInfo {
+            id: 3,
+            platform_name: "FacebookGaming".to_string(),
+            logo_path: Some("media/logos/facebook-gaming.png".to_string()),
+            base_url: "https://www.facebook.com/gaming".to_string(),
+        },
+        ContentPlatformInfo {
+            id: 4,
+            platform_name: "Douyu".to_string(),
+            logo_path: Some("media/logos/douyu.png".to_string()),
+            base_url: "https://www.douyu.com".to_string(),
+        },
+        ContentPlatformInfo {
+            id: 5,
+            platform_name: "Discord".to_string(),
+            logo_path: Some("media/logos/discord.png".to_string()),
+            base_url: "https://discord.com/invite".to_string(),
+        },
+    ];
+
+    let content_categories: Vec<ContentCategory> = vec![
+        ContentCategory {
+            id: 1,
+            category: Category::CastingRanked(PlayerSkill::Beginner),
+            description: "Casting players under 800 Elo".to_string(),
+        },
+        ContentCategory {
+            id: 2,
+            category: Category::CastingRanked(PlayerSkill::Intermediate),
+            description: "Casting players from 800 to 1400 Elo".to_string(),
+        },
+        ContentCategory {
+            id: 3,
+            category: Category::CastingRanked(PlayerSkill::Advanced),
+            description: "Casting players from 1400 to 2000 Elo".to_string(),
+        },
+        ContentCategory {
+            id: 4,
+            category: Category::CastingRanked(PlayerSkill::Professional),
+            description: "Casting players from 2000 Elo onwards".to_string(),
+        },
+        ContentCategory {
+            id: 5,
+            category: Category::PovContent(PlayerSkill::Beginner),
+            description: "POV of players under 800 Elo".to_string(),
+        },
+        ContentCategory {
+            id: 6,
+            category: Category::PovContent(PlayerSkill::Intermediate),
+            description: "POV of players from 800 to 1400 Elo".to_string(),
+        },
+        ContentCategory {
+            id: 7,
+            category: Category::PovContent(PlayerSkill::Advanced),
+            description: "POV of players from 1400 to 2000 Elo".to_string(),
+        },
+        ContentCategory {
+            id: 8,
+            category: Category::PovContent(PlayerSkill::Professional),
+            description: "POV of players from 2000 Elo onwards".to_string(),
+        },
+        ContentCategory {
+            id: 9,
+            category: Category::CastingTournaments,
+            description: "Casting of ongoing tournaments".to_string(),
+        },
+        ContentCategory {
+            id: 10,
+            category: Category::OrganizingTournaments,
+            description: "Organizing own tournaments".to_string(),
+        },
+        ContentCategory {
+            id: 11,
+            category: Category::CommunityGames,
+            description: "Organizing and/or playing community games".to_string(),
+        },
+        ContentCategory {
+            id: 12,
+            category: Category::LearningResources,
+            description: "Creating content to learn about the game".to_string(),
+        },
+    ];
+
+    let mut content_creators: Vec<ContentCreatorInfo> = vec![];
+    let mut uid: usize = 1;
 
     for player in &players {
-        let content_creator = ContentCreator::builder()
+        let content_creator = ContentCreatorInfo::builder()
+            .id(uid)
             .name(player.name.clone())
-            .uid(uid)
+            .aoc_ref_id(None)
             .country(if !player.country.is_empty() {
                 Some(player.country.to_string())
             } else {
                 None
             })
-            .content_languages(if !player.country.is_empty() {
-                Some(vec![player.country.to_string()])
-            } else {
-                None
-            })
+            .bio(None)
+            .image(None)
+            .following(None)
             .content_platforms({
-                let mut platforms: Vec<ContentPlatform> = vec![];
+                let mut platforms: Vec<ContentCreatorPlatformInfo> = vec![];
 
-                if let Some(id) = &player.twitch {
-                    platforms.push(ContentPlatform::Twitch(id.to_vec()))
+                if let Some(streams) = &player.twitch {
+                    let mut id: usize = 1;
+                    for stream in streams {
+                        platforms.push(
+                            ContentCreatorPlatformInfo::builder()
+                                .id(id)
+                                .content_platform_id(ContentPlatform::Twitch)
+                                .creator_url(
+                                    stream
+                                        .split('/')
+                                        .collect::<Vec<&str>>()
+                                        .last()
+                                        .unwrap()
+                                        .to_string(),
+                                )
+                                .content_languages(vec![player.country.to_string()])
+                                .content_categories(vec![])
+                                .build(),
+                        );
+                        id += 1;
+                    }
                 }
 
-                if let Some(id) = &player.youtube {
-                    platforms.push(ContentPlatform::Youtube(id.to_vec()))
+                if let Some(streams) = &player.youtube {
+                    let mut id: usize = 1;
+
+                    for stream in streams {
+                        platforms.push(
+                            ContentCreatorPlatformInfo::builder()
+                                .id(id)
+                                .content_platform_id(ContentPlatform::Youtube)
+                                .creator_url(
+                                    stream
+                                        .split('/')
+                                        .collect::<Vec<&str>>()
+                                        .last()
+                                        .unwrap()
+                                        .to_string(),
+                                )
+                                .content_languages(vec![player.country.to_string()])
+                                .content_categories(vec![])
+                                .build(),
+                        );
+                        id += 1;
+                    }
                 }
 
-                if let Some(id) = &player.facebook_gaming {
-                    platforms.push(ContentPlatform::FacebookGaming(id.to_vec()))
+                if let Some(streams) = &player.facebook_gaming {
+                    let mut id: usize = 1;
+
+                    for stream in streams {
+                        platforms.push(
+                            ContentCreatorPlatformInfo::builder()
+                                .id(id)
+                                .content_platform_id(ContentPlatform::FacebookGaming)
+                                .creator_url(
+                                    stream
+                                        .split('/')
+                                        .collect::<Vec<&str>>()
+                                        .last()
+                                        .unwrap()
+                                        .to_string(),
+                                )
+                                .content_languages(vec![player.country.to_string()])
+                                .content_categories(vec![])
+                                .build(),
+                        );
+                        id += 1;
+                    }
                 }
 
-                if let Some(id) = &player.douyu {
-                    platforms.push(ContentPlatform::Douyu(id.to_vec()))
+                if let Some(streams) = &player.douyu {
+                    let mut id: usize = 1;
+
+                    for stream in streams {
+                        platforms.push(
+                            ContentCreatorPlatformInfo::builder()
+                                .id(id)
+                                .content_platform_id(ContentPlatform::Douyu)
+                                .creator_url(
+                                    stream
+                                        .split('/')
+                                        .collect::<Vec<&str>>()
+                                        .last()
+                                        .unwrap()
+                                        .to_string(),
+                                )
+                                .content_languages(vec![player.country.to_string()])
+                                .content_categories(vec![])
+                                .build(),
+                        );
+                        id += 1;
+                    }
                 }
 
-                if let Some(id) = &player.discord {
-                    platforms.push(ContentPlatform::Discord(id.to_vec()))
+                if let Some(streams) = &player.discord {
+                    let mut id: usize = 1;
+
+                    for stream in streams {
+                        platforms.push(
+                            ContentCreatorPlatformInfo::builder()
+                                .id(id)
+                                .content_platform_id(ContentPlatform::Discord)
+                                .creator_url(
+                                    stream
+                                        .split('/')
+                                        .collect::<Vec<&str>>()
+                                        .last()
+                                        .unwrap()
+                                        .to_string(),
+                                )
+                                .content_languages(vec![player.country.to_string()])
+                                .content_categories(vec![])
+                                .build(),
+                        );
+                        id += 1;
+                    }
                 }
 
                 if !platforms.is_empty() {
@@ -106,6 +305,7 @@ fn main() {
                     None
                 }
             })
+            .platform_elos(None)
             .build();
 
         content_creators.push(content_creator);
@@ -115,10 +315,16 @@ fn main() {
     }
     content_creators.sort();
 
+    let api = Api::builder()
+        .content_platform_infos(content_platforms)
+        .content_categories(content_categories)
+        .content_creators(content_creators)
+        .build();
+
     let file = std::fs::File::create("data/edited/streamers.json").expect("Couldn't create file.");
     let mut writer = BufWriter::new(file);
 
     // Write data to file
-    serde_json::to_writer_pretty(&mut writer, &content_creators)
+    serde_json::to_writer_pretty(&mut writer, &api)
         .expect("Wrting data to file experienced an error.");
 }
