@@ -1,7 +1,7 @@
 use serde::{Deserialize, Serialize};
 
 use crate::types::{
-    categories::Category, elo::PlatformElo, game_platforms::GamePlatform,
+    categories::Category, elo::PlatformElo, game_platforms::GamePlatform, games::GameShortCode,
     info_platforms::InfoPlatform, stream_platforms::ContentPlatform, ContentUrl, ImagePath,
 };
 
@@ -26,6 +26,7 @@ pub struct ContentCreatorPlatformInfo {
     creator_url: ContentUrl,
     content_languages: Vec<LanguageShortCode>,
     content_categories: Vec<Category>,
+    content_games: Vec<GameShortCode>,
 }
 
 #[derive(

@@ -6,6 +6,7 @@ use aoc_util::types::{
     content_creator::{ContentCreatorInfo, ContentCreatorPlatformInfo},
     elo::PlayerSkill,
     game_platforms::{GamePlatform, MultiplayerPlatform},
+    games::GameShortCode,
     info_platforms::InfoPlatform,
     stream_platforms::{ContentPlatform, ContentPlatformInfo},
     Api,
@@ -156,6 +157,15 @@ fn main() {
                                 )
                                 .content_languages(vec![player.country.to_string()])
                                 .content_categories(vec![])
+                                .content_games({
+                                    if !player.platforms.de.is_empty()
+                                        || !player.platforms.voobly.is_empty()
+                                    {
+                                        vec![GameShortCode::Aoe2]
+                                    } else {
+                                        vec![]
+                                    }
+                                })
                                 .build(),
                         );
                         id += 1;
@@ -180,6 +190,15 @@ fn main() {
                                 )
                                 .content_languages(vec![player.country.to_string()])
                                 .content_categories(vec![])
+                                .content_games({
+                                    if !player.platforms.de.is_empty()
+                                        || !player.platforms.voobly.is_empty()
+                                    {
+                                        vec![GameShortCode::Aoe2]
+                                    } else {
+                                        vec![]
+                                    }
+                                })
                                 .build(),
                         );
                         id += 1;
@@ -204,6 +223,15 @@ fn main() {
                                 )
                                 .content_languages(vec![player.country.to_string()])
                                 .content_categories(vec![])
+                                .content_games({
+                                    if !player.platforms.de.is_empty()
+                                        || !player.platforms.voobly.is_empty()
+                                    {
+                                        vec![GameShortCode::Aoe2]
+                                    } else {
+                                        vec![]
+                                    }
+                                })
                                 .build(),
                         );
                         id += 1;
@@ -228,6 +256,15 @@ fn main() {
                                 )
                                 .content_languages(vec![player.country.to_string()])
                                 .content_categories(vec![])
+                                .content_games({
+                                    if !player.platforms.de.is_empty()
+                                        || !player.platforms.voobly.is_empty()
+                                    {
+                                        vec![GameShortCode::Aoe2]
+                                    } else {
+                                        vec![]
+                                    }
+                                })
                                 .build(),
                         );
                         id += 1;
@@ -252,6 +289,15 @@ fn main() {
                                 )
                                 .content_languages(vec![player.country.to_string()])
                                 .content_categories(vec![])
+                                .content_games({
+                                    if !player.platforms.de.is_empty()
+                                        || !player.platforms.voobly.is_empty()
+                                    {
+                                        vec![GameShortCode::Aoe2]
+                                    } else {
+                                        vec![]
+                                    }
+                                })
                                 .build(),
                         );
                         id += 1;
